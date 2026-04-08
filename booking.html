@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book a Session — Swim Club Ranchi</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,900;1,700&family=Barlow:wght@300;400;500&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #060810; --ink: #0D1117; --navy: #091333;
+      --blue: #0A3DAB; --white: #FFFFFF; --gold: #C9A84C;
+      --mist: #8DA9C4; --off: #F0F6FF;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; }
+
+    /* NAV */
+    .navbar { padding: 1.2rem 3rem; background: rgba(6,8,16,0.96) !important; backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .navbar-brand { font-family: 'Barlow Condensed', sans-serif; font-size: 1.6rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white) !important; }
+    .navbar-brand em { font-style: normal; color: var(--gold); }
+    .back-link { font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.25s; }
+    .back-link:hover { color: var(--gold); }
+
+    /* HERO STRIP */
+    .page-hero {
+      padding: 8rem 0 5rem;
+      background: linear-gradient(160deg, #091333 0%, #0A3DAB 60%, #006994 100%);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(90deg,transparent 0,transparent 58px,rgba(255,255,255,0.04) 58px,rgba(255,255,255,0.04) 62px);
+    }
+    .page-hero::after {
+      content: 'BOOK';
+      position: absolute; bottom: -0.1em; right: -0.02em;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 18rem; font-weight: 900;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.05);
+      line-height: 1; pointer-events: none;
+    }
+    .page-hero-content { position: relative; z-index: 2; padding: 0 5rem; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.8rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+    h1.page-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(3rem,7vw,7rem); font-weight: 900; text-transform: uppercase; line-height: 0.9; color: var(--white); }
+    h1.page-title em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold); font-size: 0.85em; text-transform: none; }
+
+    /* MAIN */
+    .booking-section { padding: 6rem 0; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 5rem; }
+
+    /* Step indicator */
+    .steps { display: flex; align-items: center; gap: 0; margin-bottom: 4rem; }
+    .step { display: flex; align-items: center; gap: 0.8rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.3); transition: color 0.3s; }
+    .step.active { color: var(--white); }
+    .step.done { color: var(--gold); }
+    .step-num { width: 32px; height: 32px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; transition: all 0.3s; }
+    .step.active .step-num { border-color: var(--white); background: var(--white); color: var(--black); }
+    .step.done .step-num { border-color: var(--gold); background: var(--gold); color: var(--black); }
+    .step-connector { flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin: 0 1rem; max-width: 60px; }
+
+    /* Session picker */
+    .session-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 3rem; }
+    .session-opt { background: var(--ink); border: 2px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 1.5rem; cursor: pointer; transition: all 0.3s; text-align: center; }
+    .session-opt:hover { border-color: rgba(201,168,76,0.4); }
+    .session-opt.selected { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+    .session-opt input { display: none; }
+    .session-ico { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
+    .session-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--white); margin-bottom: 0.2rem; }
+    .session-dur { font-size: 0.78rem; color: var(--mist); }
+
+    /* Form */
+    .booking-form { background: var(--ink); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 3rem; }
+    .booking-form h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.6rem; font-weight: 900; text-transform: uppercase; color: var(--white); margin-bottom: 2rem; }
+    .fg { margin-bottom: 1.2rem; }
+    .fg label { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.5rem; }
+    .fg input, .fg select, .fg textarea { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; padding: 0.9rem 1.1rem; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 0.92rem; font-weight: 300; outline: none; transition: all 0.25s; }
+    .fg input::placeholder { color: rgba(255,255,255,0.2); }
+    .fg input:focus, .fg select:focus { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+    .fg select option { background: var(--ink); }
+    .submit-book { width: 100%; background: var(--gold); color: var(--black); border: none; padding: 1.1rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all 0.3s; margin-top: 0.5rem; }
+    .submit-book:hover { background: var(--white); transform: translateY(-2px); }
+    .success-panel { display: none; text-align: center; padding: 4rem 2rem; }
+    .success-panel .tick { font-size: 4rem; margin-bottom: 1rem; }
+    .success-panel h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 2.5rem; font-weight: 900; text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem; }
+    .success-panel p { color: var(--mist); font-size: 0.95rem; line-height: 1.7; }
+    .success-panel .home-link { display: inline-block; margin-top: 2rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; background: var(--gold); color: var(--black); padding: 0.9rem 2.2rem; border-radius: 2px; text-decoration: none; transition: all 0.3s; }
+    .success-panel .home-link:hover { background: var(--white); }
+
+    /* Sidebar info */
+    .sidebar-card { background: var(--ink); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 2rem; margin-bottom: 1.5rem; }
+    .sidebar-card h4 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 1rem; }
+    .sidebar-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+    .sidebar-row:last-child { border-bottom: none; }
+    .sidebar-row span:first-child { color: var(--mist); }
+    .sidebar-row span:last-child { color: var(--white); font-weight: 500; text-align: right; }
+
+    /* Footer */
+    footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.05); padding: 2rem 5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .foot-logo { font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 900; letter-spacing: 0.12em; color: var(--white); }
+    .foot-logo em { font-style: normal; color: var(--gold); }
+    footer p { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+
+    @media(max-width:768px){
+      .navbar { padding: 1rem 1.5rem; }
+      .page-hero-content, .wrap { padding: 0 1.5rem; }
+      .session-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">SWIM<em>CLUB</em></a>
+    <a href="index.html" class="back-link ms-auto">&larr; Back to Home</a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="hero-eyebrow">Swim Club Ranchi</div>
+    <h1 class="page-title">Book a<br/><em>Session</em></h1>
+  </div>
+</div>
+
+<!-- BOOKING SECTION -->
+<section class="booking-section">
+  <div class="wrap">
+    <!-- Steps -->
+    <div class="steps">
+      <div class="step active" id="step1"><div class="step-num">1</div><span>Choose Session</span></div>
+      <div class="step-connector"></div>
+      <div class="step" id="step2"><div class="step-num">2</div><span>Your Details</span></div>
+      <div class="step-connector"></div>
+      <div class="step" id="step3"><div class="step-num">3</div><span>Confirm</span></div>
+    </div>
+
+    <div class="row g-5">
+      <!-- Main form -->
+      <div class="col-lg-8">
+        <!-- Session picker -->
+        <div id="sessionPicker">
+          <p style="color:var(--mist);font-size:0.9rem;margin-bottom:1.5rem;">Select the session type you want to book:</p>
+          <div class="session-grid">
+            <label class="session-opt" onclick="selectSession(this, 'Recreational Swimming')">
+              <input type="radio" name="session" value="Recreational Swimming"/>
+              <span class="session-ico">&#127946;</span>
+              <div class="session-name">Recreational</div>
+              <div class="session-dur">Open pool</div>
+            </label>
+            <label class="session-opt" onclick="selectSession(this, 'Swimming Lessons')">
+              <input type="radio" name="session" value="Swimming Lessons"/>
+              <span class="session-ico">&#127891;</span>
+              <div class="session-name">Lessons</div>
+              <div class="session-dur">60 min</div>
+            </label>
+            <label class="session-opt" onclick="selectSession(this, 'Fitness & Lap Training')">
+              <input type="radio" name="session" value="Fitness & Lap Training"/>
+              <span class="session-ico">&#9889;</span>
+              <div class="session-name">Lap Training</div>
+              <div class="session-dur">90 min</div>
+            </label>
+            <label class="session-opt" onclick="selectSession(this, 'Kids Program')">
+              <input type="radio" name="session" value="Kids Program"/>
+              <span class="session-ico">&#128102;</span>
+              <div class="session-name">Kids&rsquo; Program</div>
+              <div class="session-dur">45 min</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Details form -->
+        <div class="booking-form" id="bookingForm">
+          <h3>Your Details</h3>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="fg"><label>First Name</label><input type="text" id="bfn" placeholder="First name"/></div></div>
+            <div class="col-md-6"><div class="fg"><label>Last Name</label><input type="text" id="bln" placeholder="Last name"/></div></div>
+          </div>
+          <div class="fg"><label>Phone Number</label><input type="text" id="bphone" placeholder="Your contact number"/></div>
+          <div class="fg"><label>Preferred Date</label><input type="date" id="bdate"/></div>
+          <div class="fg">
+            <label>Preferred Time Slot</label>
+            <select id="btime">
+              <option value="">Select a time slot</option>
+              <optgroup label="Morning">
+                <option>6:00 AM &ndash; 7:30 AM</option>
+                <option>7:30 AM &ndash; 9:00 AM</option>
+                <option>9:00 AM &ndash; 10:30 AM</option>
+                <option>10:30 AM &ndash; 12:00 PM</option>
+              </optgroup>
+              <optgroup label="Afternoon">
+                <option>12:00 PM &ndash; 1:30 PM</option>
+                <option>1:30 PM &ndash; 3:00 PM</option>
+                <option>3:00 PM &ndash; 4:30 PM</option>
+              </optgroup>
+              <optgroup label="Evening">
+                <option>5:00 PM &ndash; 6:30 PM</option>
+                <option>6:30 PM &ndash; 8:00 PM</option>
+                <option>8:00 PM &ndash; 9:30 PM</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="fg"><label>Special Requests (optional)</label><input type="text" id="bnotes" placeholder="Any notes for us?"/></div>
+          <button class="submit-book" id="bookBtn">Confirm Booking &rarr;</button>
+        </div>
+
+        <!-- Success panel -->
+        <div class="success-panel" id="successPanel">
+          <div class="tick">&#9989;</div>
+          <h3>Booking Request Sent!</h3>
+          <p>Thank you! Our team will confirm your session via WhatsApp or phone call within a few hours.<br/>For immediate confirmation, call us at <strong style="color:var(--gold)">079033 56272</strong>.</p>
+          <a href="index.html" class="home-link">Back to Home</a>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <div class="sidebar-card">
+          <h4>Pool Info</h4>
+          <div class="sidebar-row"><span>Location</span><span>Ranchi, Jharkhand</span></div>
+          <div class="sidebar-row"><span>Phone</span><span>079033 56272</span></div>
+          <div class="sidebar-row"><span>Mon &ndash; Sat</span><span>6AM &ndash; 10PM</span></div>
+          <div class="sidebar-row"><span>Sunday</span><span>7AM &ndash; 9PM</span></div>
+          <div class="sidebar-row"><span>Google Rating</span><span>4.0 &#9733; (91 reviews)</span></div>
+        </div>
+        <div class="sidebar-card">
+          <h4>Your Selection</h4>
+          <div class="sidebar-row"><span>Session</span><span id="sel-session" style="color:var(--gold)">Not selected</span></div>
+          <div class="sidebar-row"><span>Date</span><span id="sel-date">—</span></div>
+          <div class="sidebar-row"><span>Time</span><span id="sel-time">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logo">SWIM<em>CLUB</em></div>
+  <p>&copy; 2026 Swim Club, Ranchi</p>
+  <p>079033 56272</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  var selectedSession = '';
+
+  function selectSession(el, name) {
+    document.querySelectorAll('.session-opt').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    selectedSession = name;
+    document.getElementById('sel-session').textContent = name;
+    // advance step indicator
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step1').classList.add('done');
+    document.getElementById('step2').classList.add('active');
+  }
+
+  // Live update sidebar
+  document.getElementById('bdate').addEventListener('change', function() {
+    var d = new Date(this.value);
+    document.getElementById('sel-date').textContent = d.toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'});
+  });
+  document.getElementById('btime').addEventListener('change', function() {
+    document.getElementById('sel-time').textContent = this.value || '—';
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step2').classList.add('done');
+    document.getElementById('step3').classList.add('active');
+  });
+
+  // Submit
+  document.getElementById('bookBtn').addEventListener('click', function() {
+    var fn = document.getElementById('bfn').value.trim();
+    var phone = document.getElementById('bphone').value.trim();
+    var date = document.getElementById('bdate').value;
+    var time = document.getElementById('btime').value;
+
+    if (!selectedSession || !fn || !phone || !date || !time) {
+      this.style.background = '#ef4444';
+      this.textContent = 'Please fill all required fields';
+      var btn = this;
+      setTimeout(function() { btn.style.background = ''; btn.textContent = 'Confirm Booking \u2192'; }, 2500);
+      return;
+    }
+    document.getElementById('bookingForm').style.display = 'none';
+    document.getElementById('sessionPicker').style.display = 'none';
+    document.querySelector('.steps').style.display = 'none';
+    document.getElementById('step3').classList.add('done');
+    document.getElementById('successPanel').style.display = 'block';
+  });
+
+  // Set min date to today
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('bdate').setAttribute('min', today);
+</script>
+</body>
+</html>

@@ -4,10 +4,14 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Swim Club — Ranchi</title>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,900;1,700&family=Barlow:wght@300;400;500&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,900;1,700&family=Barlow:wght@300;400;500&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ── CSS VARIABLES ── */
     :root {
       --black:  #060810;
       --ink:    #0D1117;
@@ -22,498 +26,283 @@
       --pool2:  url('pool2.jpg'), linear-gradient(160deg,#0A3DAB 0%,#006994 50%,#004e7c 100%);
     }
 
-    html { scroll-behavior:smooth; }
-    body { background:var(--black); color:var(--white); font-family:'Barlow',sans-serif; font-weight:300; overflow-x:hidden; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
 
-    /* ─── NAV ─── */
-    nav {
-      position:fixed; top:0; left:0; right:0; z-index:300;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:2rem 5rem;
-      transition:all 0.5s;
-    }
-    nav.stuck {
-      padding:1rem 5rem;
-      background:rgba(6,8,16,0.96);
-      backdrop-filter:blur(20px);
-      border-bottom:1px solid rgba(255,255,255,0.06);
-    }
-    .logo {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:1.6rem; font-weight:900; letter-spacing:0.12em;
-      text-transform:uppercase; color:var(--white); text-decoration:none;
-    }
-    .logo em { font-style:normal; color:var(--gold); }
-    .nav-center { display:flex; gap:3rem; list-style:none; }
-    .nav-center a {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:0.85rem; font-weight:600; letter-spacing:0.2em;
-      text-transform:uppercase; color:rgba(255,255,255,0.55);
-      text-decoration:none; transition:color 0.2s;
-    }
-    .nav-center a:hover { color:var(--white); }
-    .nav-right { display:flex; align-items:center; gap:1.5rem; }
-    .nav-status {
-      display:flex; align-items:center; gap:0.5rem;
-      font-size:0.72rem; font-weight:500; letter-spacing:0.15em;
-      text-transform:uppercase;
-    }
-    .status-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-    .status-dot.open { background:#4ade80; animation:pulse 2s infinite; }
-    .status-dot.closed { background:#f87171; }
+    /* ── BOOTSTRAP NAVBAR OVERRIDE ── */
+    .navbar { padding: 1.2rem 3rem; transition: all 0.4s; background: transparent !important; }
+    .navbar.stuck { background: rgba(6,8,16,0.96) !important; backdrop-filter: blur(20px); padding: 0.8rem 3rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .navbar-brand { font-family: 'Barlow Condensed', sans-serif; font-size: 1.6rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white) !important; }
+    .navbar-brand em { font-style: normal; color: var(--gold); }
+    .navbar-nav .nav-link { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6) !important; padding: 0.4rem 1rem !important; transition: color 0.2s; }
+    .navbar-nav .nav-link:hover { color: var(--gold) !important; }
+    .navbar-toggler { border-color: rgba(255,255,255,0.3); }
+    .navbar-toggler-icon { filter: invert(1); }
+    .nav-status { display: flex; align-items: center; gap: 0.5rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.open { background: #4ade80; animation: pulse 2s infinite; }
+    .status-dot.closed { background: #f87171; }
+    .status-text.open { color: #4ade80; }
+    .status-text.closed { color: #f87171; }
+    .btn-nav-cta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; background: var(--white); color: var(--black) !important; padding: 0.55rem 1.6rem !important; border-radius: 2px; transition: all 0.25s; }
+    .btn-nav-cta:hover { background: var(--gold) !important; color: var(--black) !important; }
+
     @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.4);} 50%{box-shadow:0 0 0 6px rgba(74,222,128,0);} }
-    .status-text.open { color:#4ade80; }
-    .status-text.closed { color:#f87171; }
-    .nav-btn {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:0.82rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase;
-      background:var(--white); color:var(--black);
-      padding:0.6rem 1.8rem; border-radius:2px; text-decoration:none;
-      transition:all 0.25s;
-    }
-    .nav-btn:hover { background:var(--gold); }
 
-    /* ─── HERO ─── */
-    #hero {
-      position:relative; height:100vh; min-height:700px;
-      display:flex; align-items:flex-end;
-      overflow:hidden;
-    }
-    .hero-bg {
-      position:absolute; inset:0;
-      background:var(--pool) center center / cover no-repeat;
-      animation:zoomDrift 25s ease-in-out infinite alternate;
-    }
-    @keyframes zoomDrift {
-      0%   { transform:scale(1.05) translate(0,0); }
-      100% { transform:scale(1.12) translate(-1%,-1%); }
-    }
-    /* layered overlays for drama */
-    .hero-vignette {
-      position:absolute; inset:0;
-      background:
-        linear-gradient(to top, rgba(6,8,16,1) 0%, rgba(6,8,16,0.5) 35%, rgba(6,8,16,0.1) 65%, rgba(6,8,16,0.3) 100%),
-        linear-gradient(to right, rgba(6,8,16,0.7) 0%, transparent 60%);
-    }
-    /* large watermark text */
-    .hero-watermark {
-      position:absolute; bottom:-0.1em; left:-0.02em;
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:clamp(12rem,22vw,22rem);
-      font-weight:900; letter-spacing:-0.02em; text-transform:uppercase;
-      color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.07);
-      line-height:1; pointer-events:none; user-select:none;
-      white-space:nowrap;
-    }
-    .hero-content {
-      position:relative; z-index:2;
-      width:100%; padding:0 5rem 5.5rem;
-      display:grid; grid-template-columns:1fr auto;
-      align-items:flex-end; gap:4rem;
-    }
-    .hero-left {}
-    .hero-tag {
-      display:inline-flex; align-items:center; gap:0.7rem;
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:0.72rem; font-weight:600; letter-spacing:0.4em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:1.2rem;
-      opacity:0; animation:fadeUp 0.7s 0.2s forwards;
-    }
-    .hero-tag::before { content:''; width:32px; height:1px; background:var(--gold); }
-    .hero-h1 {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:clamp(5rem,11vw,12rem);
-      font-weight:900; line-height:0.88; text-transform:uppercase;
-      letter-spacing:-0.01em; color:var(--white);
-      opacity:0; animation:fadeUp 0.8s 0.35s forwards;
-    }
-    .hero-h1 .italic { font-family:'Playfair Display',sans-serif; font-weight:600; font-style:italic; color:var(--gold); display:block; line-height:1; font-size:0.65em; letter-spacing:0.02em; text-transform:none; }
-    .hero-desc {
-      margin-top:1.5rem; max-width:480px;
-      font-size:1rem; line-height:1.75; color:rgba(255,255,255,0.6); font-weight:300;
-      opacity:0; animation:fadeUp 0.8s 0.5s forwards;
-    }
-    .hero-actions {
-      margin-top:2.2rem; display:flex; align-items:center; gap:1.5rem;
-      opacity:0; animation:fadeUp 0.8s 0.65s forwards;
-    }
-    .cta-main {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:0.9rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
-      background:var(--white); color:var(--black);
-      padding:1rem 2.8rem; text-decoration:none; border-radius:2px;
-      transition:all 0.3s; position:relative; overflow:hidden;
-    }
-    .cta-main::after {
-      content:''; position:absolute; inset:0;
-      background:var(--gold); transform:translateX(-101%); transition:transform 0.35s;
-    }
-    .cta-main span { position:relative; z-index:1; }
-    .cta-main:hover::after { transform:translateX(0); }
-    .cta-secondary {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:0.85rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase;
-      color:rgba(255,255,255,0.6); text-decoration:none;
-      border-bottom:1px solid rgba(255,255,255,0.25); padding-bottom:2px;
-      transition:all 0.25s;
-    }
-    .cta-secondary:hover { color:var(--white); border-color:var(--white); }
+    /* ── HERO ── */
+    #hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: flex-end; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: var(--pool) center center / cover no-repeat; animation: zoomDrift 25s ease-in-out infinite alternate; }
+    @keyframes zoomDrift { 0%{transform:scale(1.05) translate(0,0);} 100%{transform:scale(1.12) translate(-1%,-1%);} }
+    .hero-vignette { position: absolute; inset: 0; background: linear-gradient(to top,rgba(6,8,16,1) 0%,rgba(6,8,16,0.5) 35%,rgba(6,8,16,0.1) 65%,rgba(6,8,16,0.3) 100%), linear-gradient(to right,rgba(6,8,16,0.7) 0%,transparent 60%); }
 
-    /* hero right — vertical stat stack */
-    .hero-right {
-      display:flex; flex-direction:column; gap:2.5rem; align-items:flex-end;
-      opacity:0; animation:fadeUp 0.8s 0.8s forwards;
-    }
-    .hero-stat { text-align:right; }
-    .hero-stat-n {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:3.5rem; font-weight:900; color:var(--white); line-height:1;
-    }
-    .hero-stat-n sup { font-size:1.4rem; color:var(--gold); }
-    .hero-stat-l { font-family:'Barlow Condensed',sans-serif; font-size:0.68rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:0.15rem; }
-    .hero-divider { width:1px; height:40px; background:rgba(255,255,255,0.15); margin:0 auto; }
+    /* CSS water wave */
+    .wave-wrap { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; line-height: 0; }
+    .wave-wrap svg { display: block; width: 100%; }
+    .wave1 { animation: waveMove 6s linear infinite; }
+    .wave2 { animation: waveMove 9s linear infinite reverse; opacity: 0.5; }
+    @keyframes waveMove { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
 
+    .hero-watermark { position: absolute; bottom: -0.1em; left: -0.02em; font-family: 'Barlow Condensed', sans-serif; font-size: clamp(12rem,22vw,22rem); font-weight: 900; letter-spacing: -0.02em; text-transform: uppercase; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.06); line-height: 1; pointer-events: none; user-select: none; white-space: nowrap; z-index: 1; }
+    .hero-content { position: relative; z-index: 2; width: 100%; padding: 0 5rem 7rem; display: grid; grid-template-columns: 1fr auto; align-items: flex-end; gap: 4rem; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.7rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; opacity: 0; animation: fadeUp 0.7s 0.2s forwards; }
+    .hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
+    .hero-h1 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(5rem,11vw,12rem); font-weight: 900; line-height: 0.88; text-transform: uppercase; letter-spacing: -0.01em; color: var(--white); opacity: 0; animation: fadeUp 0.8s 0.35s forwards; }
+    .hero-h1 .italic { font-family: 'Playfair Display', serif; font-weight: 600; font-style: italic; color: var(--gold); display: block; line-height: 1; font-size: 0.65em; letter-spacing: 0.02em; text-transform: none; }
+    .hero-desc { margin-top: 1.5rem; max-width: 480px; font-size: 1rem; line-height: 1.75; color: rgba(255,255,255,0.6); font-weight: 300; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+    .hero-actions { margin-top: 2.2rem; display: flex; align-items: center; gap: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.65s forwards; }
+    .cta-main { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; background: var(--white); color: var(--black); padding: 1rem 2.8rem; text-decoration: none; border-radius: 2px; transition: all 0.3s; position: relative; overflow: hidden; display: inline-block; }
+    .cta-main::after { content: ''; position: absolute; inset: 0; background: var(--gold); transform: translateX(-101%); transition: transform 0.35s; }
+    .cta-main span { position: relative; z-index: 1; }
+    .cta-main:hover::after { transform: translateX(0); }
+    .cta-secondary { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.25); padding-bottom: 2px; transition: all 0.25s; }
+    .cta-secondary:hover { color: var(--white); border-color: var(--white); }
+    .hero-right { display: flex; flex-direction: column; gap: 2.5rem; align-items: flex-end; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+    .hero-stat { text-align: right; }
+    .hero-stat-n { font-family: 'Barlow Condensed', sans-serif; font-size: 3.5rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .hero-stat-n sup { font-size: 1.4rem; color: var(--gold); }
+    .hero-stat-l { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 0.15rem; }
+    .hero-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.15); margin: 0 auto; }
+    .scroll-hint { position: absolute; bottom: 5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; opacity: 0; animation: fadeUp 1s 1.2s forwards; z-index: 4; }
+    .scroll-hint span { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .scroll-line { width: 1px; background: rgba(255,255,255,0.4); animation: grow 1.4s ease-in-out infinite; }
+    @keyframes grow { 0%{height:0;opacity:1;} 100%{height:48px;opacity:0;} }
     @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
 
-    /* scroll indicator */
-    .scroll-hint {
-      position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
-      display:flex; flex-direction:column; align-items:center; gap:0.4rem;
-      opacity:0; animation:fadeUp 1s 1.2s forwards; z-index:2;
-    }
-    .scroll-hint span { font-family:'Barlow Condensed',sans-serif; font-size:0.62rem; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; color:rgba(255,255,255,0.35); }
-    .scroll-line { width:1px; height:0; background:rgba(255,255,255,0.4); animation:grow 1.4s ease-in-out infinite; }
-    @keyframes grow { 0%{height:0;opacity:1;} 100%{height:48px;opacity:0;} }
-
-    /* ─── MARQUEE ─── */
-    .marquee {
-      background:var(--gold); overflow:hidden;
-      padding:0.85rem 0;
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:1rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;
-      color:var(--black);
-    }
-    .marquee-inner { display:flex; animation:marquee 20s linear infinite; white-space:nowrap; }
-    .marquee-item { padding:0 3rem; flex-shrink:0; }
-    .marquee-sep { color:rgba(0,0,0,0.35); }
+    /* ── MARQUEE ── */
+    .marquee { background: var(--gold); overflow: hidden; padding: 0.85rem 0; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--black); }
+    .marquee-inner { display: flex; animation: marquee 20s linear infinite; white-space: nowrap; }
+    .marquee-item { padding: 0 3rem; flex-shrink: 0; }
+    .marquee-sep { color: rgba(0,0,0,0.35); }
     @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
-    /* ─── NUMBERS BAR ─── */
-    .numbers-bar {
-      display:grid; grid-template-columns:repeat(4,1fr);
-      background:var(--ink); border-bottom:1px solid rgba(255,255,255,0.05);
-    }
-    .nb-cell {
-      padding:3.5rem 3rem; border-right:1px solid rgba(255,255,255,0.05);
-      position:relative; overflow:hidden; transition:background 0.4s;
-    }
-    .nb-cell:last-child { border-right:none; }
-    .nb-cell:hover { background:rgba(10,61,171,0.2); }
-    .nb-top {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:4rem; font-weight:900; color:var(--white); line-height:1;
-    }
-    .nb-top sup { color:var(--gold); font-size:1.8rem; }
-    .nb-label { font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:var(--mist); margin-top:0.5rem; }
-    .nb-accent { position:absolute; bottom:0; left:0; width:0; height:2px; background:var(--gold); transition:width 0.5s; }
-    .nb-cell:hover .nb-accent { width:100%; }
+    /* ── NUMBERS BAR ── */
+    .numbers-bar { display: grid; grid-template-columns: repeat(4,1fr); background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nb-cell { padding: 3.5rem 3rem; border-right: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; transition: background 0.4s; }
+    .nb-cell:last-child { border-right: none; }
+    .nb-cell:hover { background: rgba(10,61,171,0.2); }
+    .nb-top { font-family: 'Barlow Condensed', sans-serif; font-size: 4rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .nb-top sup { color: var(--gold); font-size: 1.8rem; }
+    .nb-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--mist); margin-top: 0.5rem; }
+    .nb-accent { position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--gold); transition: width 0.5s; }
+    .nb-cell:hover .nb-accent { width: 100%; }
 
-    /* ─── SHARED ─── */
-    .wrap { max-width:1300px; margin:0 auto; padding:0 5rem; }
-    .section-eyebrow {
-      display:inline-flex; align-items:center; gap:0.8rem;
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:0.7rem; font-weight:700; letter-spacing:0.4em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:1rem;
-    }
-    .section-eyebrow::before { content:''; width:28px; height:1px; background:var(--gold); }
-    h2.shead {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:clamp(2.8rem,5vw,5rem); font-weight:900;
-      text-transform:uppercase; line-height:0.95; letter-spacing:-0.01em;
-      color:var(--white); margin-bottom:1.5rem;
-    }
-    h2.shead em { font-family:'Playfair Display',sans-serif; font-style:italic; font-weight:600; color:var(--gold); font-size:0.85em; text-transform:none; }
-    h2.shead.dark { color:var(--black); }
-    h2.shead.dark em { color:var(--blue); }
-    .body-p { font-size:0.97rem; line-height:1.85; color:var(--mist); margin-bottom:1rem; font-weight:300; }
-    .body-p.dark-p { color:#4a6080; }
+    /* ── SHARED ── */
+    .wrap { max-width: 1300px; margin: 0 auto; padding: 0 5rem; }
+    .section-eyebrow { display: inline-flex; align-items: center; gap: 0.8rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .section-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+    h2.shead { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.8rem,5vw,5rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; color: var(--white); margin-bottom: 1.5rem; }
+    h2.shead em { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; color: var(--gold); font-size: 0.85em; text-transform: none; }
+    h2.shead.dark { color: var(--black); }
+    h2.shead.dark em { color: var(--blue); }
+    .body-p { font-size: 0.97rem; line-height: 1.85; color: var(--mist); margin-bottom: 1rem; font-weight: 300; }
 
-    /* ─── ABOUT ─── */
-    #about { padding:9rem 0; background:var(--ink); }
-    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:8rem; align-items:center; }
+    /* ── ABOUT ── */
+    #about { padding: 9rem 0; background: var(--ink); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: center; }
+    .about-visual { position: relative; height: 600px; display: flex; flex-direction: column; gap: 1.5rem; }
+    .av-lane-art { flex: 1; border-radius: 4px; overflow: hidden; position: relative; background: linear-gradient(160deg,#091333 0%,#0A3DAB 60%,#006994 100%); }
+    .av-lane-art::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg,transparent 0px,transparent 58px,rgba(255,255,255,0.06) 58px,rgba(255,255,255,0.06) 62px); }
+    .av-lane-art::after { content: 'SWIM'; position: absolute; bottom: -0.05em; right: -0.02em; font-family: 'Barlow Condensed', sans-serif; font-size: 10rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.05); line-height: 1; pointer-events: none; }
+    .av-lane-inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; }
+    .av-open-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(8px); padding: 0.5rem 1rem; border-radius: 100px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); width: fit-content; margin-bottom: 1rem; }
+    .av-open-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
+    .av-big-stat { font-family: 'Barlow Condensed', sans-serif; font-size: 5rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .av-big-stat span { color: var(--gold); }
+    .av-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 0.2rem; }
+    .av-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .av-card { background: var(--black); border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 1.6rem 1.8rem; position: relative; overflow: hidden; transition: border-color 0.3s; }
+    .av-card:hover { border-color: rgba(201,168,76,0.4); }
+    .av-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+    .av-card-n { font-family: 'Barlow Condensed', sans-serif; font-size: 2.8rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .av-card-n span { color: var(--gold); font-size: 1.4rem; }
+    .av-card-l { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mist); margin-top: 0.3rem; }
+    .features { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0; }
+    .feat { display: flex; gap: 1.5rem; align-items: flex-start; padding: 1.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: padding 0.3s; }
+    .feat:hover { padding-left: 0.5rem; }
+    .feat:last-child { border-bottom: none; }
+    .feat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; margin-top: 3px; flex-shrink: 0; }
+    .feat-body strong { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); margin-bottom: 0.2rem; }
+    .feat-body span { font-size: 0.86rem; color: var(--mist); line-height: 1.6; }
 
-    /* ── ABOUT VISUAL PANEL ── */
-    .about-visual { position:relative; height:600px; display:flex; flex-direction:column; gap:1.5rem; }
-    .av-lane-art {
-      flex:1; border-radius:4px; overflow:hidden; position:relative;
-      background:linear-gradient(160deg,#091333 0%,#0A3DAB 60%,#006994 100%);
-    }
-    .av-lane-art::before {
-      content:''; position:absolute; inset:0;
-      background:repeating-linear-gradient(
-        90deg,
-        transparent 0px, transparent 58px,
-        rgba(255,255,255,0.06) 58px, rgba(255,255,255,0.06) 62px
-      );
-    }
-    .av-lane-art::after {
-      content:'SWIM';
-      position:absolute; bottom:-0.05em; right:-0.02em;
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:10rem; font-weight:900;
-      color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.05);
-      line-height:1; pointer-events:none;
-    }
-    .av-lane-inner {
-      position:relative; z-index:2; height:100%;
-      display:flex; flex-direction:column; justify-content:flex-end;
-      padding:2rem;
-    }
-    .av-open-badge {
-      display:inline-flex; align-items:center; gap:0.5rem;
-      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
-      backdrop-filter:blur(8px); padding:0.5rem 1rem; border-radius:100px;
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:0.72rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase;
-      color:var(--white); width:fit-content; margin-bottom:1rem;
-    }
-    .av-open-dot { width:7px; height:7px; border-radius:50%; background:#4ade80; animation:pulse 2s infinite; }
-    .av-big-stat { font-family:'Barlow Condensed',sans-serif; font-size:5rem; font-weight:900; color:var(--white); line-height:1; }
-    .av-big-stat span { color:var(--gold); }
-    .av-stat-label { font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:0.2rem; }
-    .av-cards { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
-    .av-card {
-      background:var(--black); border:1px solid rgba(255,255,255,0.07);
-      border-radius:4px; padding:1.6rem 1.8rem; position:relative; overflow:hidden;
-      transition:border-color 0.3s;
-    }
-    .av-card:hover { border-color:rgba(201,168,76,0.4); }
-    .av-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); }
-    .av-card-n { font-family:'Barlow Condensed',sans-serif; font-size:2.8rem; font-weight:900; color:var(--white); line-height:1; }
-    .av-card-n span { color:var(--gold); font-size:1.4rem; }
-    .av-card-l { font-family:'Barlow Condensed',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--mist); margin-top:0.3rem; }
+    /* ── FULL IMAGE STRIP ── */
+    .img-strip { position: relative; height: 65vh; overflow: hidden; display: flex; align-items: center; }
+    .img-strip-bg { position: absolute; inset: 0; background: var(--pool2) center 40% / cover; transform: scale(1.05); }
+    .img-strip-overlay { position: absolute; inset: 0; background: linear-gradient(100deg,rgba(6,8,16,0.92) 0%,rgba(9,19,51,0.7) 45%,rgba(6,8,16,0.5) 100%); }
+    .strip-content { position: relative; z-index: 2; padding: 0 5rem; }
+    .strip-content blockquote { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,3.5vw,3rem); font-style: italic; font-weight: 400; color: var(--white); max-width: 750px; line-height: 1.3; }
+    .strip-content blockquote::before { content: '\201C'; display: block; font-size: 7rem; color: var(--gold); font-family: 'Barlow Condensed', sans-serif; font-style: normal; font-weight: 900; line-height: 0.6; margin-bottom: 1.2rem; opacity: 0.7; }
+    .strip-cite { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; }
+    .strip-cite::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+    .strip-cite span { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+    .strip-stars { color: #fbbf24; font-size: 1rem; margin-top: 0.8rem; }
 
-    .features { margin-top:2.5rem; display:flex; flex-direction:column; gap:0; }
-    .feat {
-      display:flex; gap:1.5rem; align-items:flex-start;
-      padding:1.4rem 0; border-bottom:1px solid rgba(255,255,255,0.06);
-      transition:padding 0.3s;
-    }
-    .feat:hover { padding-left:0.5rem; }
-    .feat:last-child { border-bottom:none; }
-    .feat-num { font-family:'Barlow Condensed',sans-serif; font-size:0.75rem; font-weight:700; color:var(--gold); letter-spacing:0.1em; margin-top:3px; flex-shrink:0; }
-    .feat-body strong { display:block; font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--white); margin-bottom:0.2rem; }
-    .feat-body span { font-size:0.86rem; color:var(--mist); line-height:1.6; }
+    /* ── SERVICES (Bootstrap cards) ── */
+    #services { padding: 9rem 0; background: var(--white); }
+    .services-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4.5rem; }
+    .svc-card { background: var(--white); border: 2px solid #e8eef5; border-radius: 8px; padding: 2.5rem; position: relative; overflow: hidden; transition: all 0.4s; height: 100%; }
+    .svc-card::after { content: ''; position: absolute; inset: 0; background: var(--navy); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.76,0,0.24,1); border-radius: 6px; }
+    .svc-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,71,171,0.15); border-color: var(--blue); }
+    .svc-card:hover::after { transform: translateY(0); }
+    .svc-card > * { position: relative; z-index: 1; }
+    .svc-n { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(0,0,0,0.2); margin-bottom: 1.5rem; transition: color 0.3s; }
+    .svc-card:hover .svc-n { color: rgba(255,255,255,0.2); }
+    .svc-ico { font-size: 2rem; margin-bottom: 1rem; display: block; transition: transform 0.3s; }
+    .svc-card:hover .svc-ico { transform: scale(1.15); }
+    .svc-card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--black); margin-bottom: 0.7rem; transition: color 0.3s; }
+    .svc-card:hover h3 { color: var(--white); }
+    .svc-card p { font-size: 0.88rem; color: #5a7090; line-height: 1.7; transition: color 0.3s; margin-bottom: 1.5rem; }
+    .svc-card:hover p { color: rgba(255,255,255,0.6); }
+    .badge-pill { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; background: #e8f0ff; color: var(--blue); padding: 0.3rem 0.9rem; border-radius: 100px; transition: all 0.3s; }
+    .svc-card:hover .badge-pill { background: var(--gold); color: var(--black); }
 
-    /* ─── FULL IMAGE STRIP ─── */
-    .img-strip {
-      position:relative; height:65vh; overflow:hidden;
-      display:flex; align-items:center;
-    }
-    .img-strip-bg {
-      position:absolute; inset:0;
-      background:var(--pool2) center 40% / cover;
-      transform:scale(1.05);
-    }
-    .img-strip-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(100deg, rgba(6,8,16,0.92) 0%, rgba(9,19,51,0.7) 45%, rgba(6,8,16,0.5) 100%);
-    }
-    .strip-content { position:relative; z-index:2; padding:0 5rem; }
-    .strip-content blockquote {
-      font-family:'Playfair Display',sans-serif;
-      font-size:clamp(1.8rem,3.5vw,3rem);
-      font-style:italic; font-weight:400; color:var(--white);
-      max-width:750px; line-height:1.3;
-    }
-    .strip-content blockquote::before {
-      content:'\201C';
-      display:block; font-size:7rem; color:var(--gold);
-      font-family:'Barlow Condensed',sans-serif; font-style:normal; font-weight:900;
-      line-height:0.6; margin-bottom:1.2rem; opacity:0.7;
-    }
-    .strip-cite {
-      display:flex; align-items:center; gap:1rem; margin-top:2rem;
-    }
-    .strip-cite::before { content:''; width:40px; height:1px; background:var(--gold); }
-    .strip-cite span { font-family:'Barlow Condensed',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); }
-    .strip-stars { color:#fbbf24; font-size:1rem; margin-top:0.8rem; }
+    /* ── SCHEDULE (DOM Manipulation) ── */
+    #schedule { padding: 8rem 0; background: var(--ink); }
+    .schedule-tabs { display: flex; gap: 0; margin-bottom: 3rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; width: fit-content; }
+    .sched-tab { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.8rem 2rem; background: transparent; border: none; color: rgba(255,255,255,0.45); cursor: pointer; transition: all 0.25s; border-right: 1px solid rgba(255,255,255,0.08); }
+    .sched-tab:last-child { border-right: none; }
+    .sched-tab.active { background: var(--gold); color: var(--black); }
+    .sched-tab:hover:not(.active) { background: rgba(255,255,255,0.06); color: var(--white); }
+    .schedule-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .schedule-grid.active { display: grid; animation: fadeUp 0.4s ease forwards; }
+    .sched-card { background: var(--black); border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 1.8rem; position: relative; transition: all 0.3s; }
+    .sched-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-3px); }
+    .sched-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold); border-radius: 4px 0 0 4px; }
+    .sched-time { font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 900; color: var(--white); line-height: 1; margin-bottom: 0.3rem; }
+    .sched-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); margin-bottom: 0.5rem; }
+    .sched-detail { font-size: 0.83rem; color: var(--mist); line-height: 1.5; }
+    .sched-badge { display: inline-block; margin-top: 0.8rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); padding: 0.25rem 0.7rem; border-radius: 2px; }
 
-    /* ─── SERVICES ─── */
-    #services { padding:9rem 0; background:var(--white); }
-    .services-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:4.5rem; }
-    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(0,0,0,0.08); }
+    /* ── MEMBERSHIP TOGGLE (DOM) ── */
+    #membership { padding: 8rem 0; background: var(--black); }
+    .toggle-wrap { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 3rem; }
+    .toggle-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mist); transition: color 0.3s; }
+    .toggle-label.active { color: var(--white); }
+    .toggle-switch { position: relative; width: 56px; height: 28px; cursor: pointer; }
+    .toggle-switch input { display: none; }
+    .toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,0.1); border-radius: 100px; border: 1px solid rgba(255,255,255,0.15); transition: all 0.3s; }
+    .toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; background: var(--white); border-radius: 50%; top: 3px; left: 4px; transition: transform 0.3s; }
+    .toggle-switch input:checked + .toggle-slider { background: var(--gold); border-color: var(--gold); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(28px); background: var(--black); }
+    .save-badge { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); padding: 0.3rem 0.8rem; border-radius: 2px; display: none; }
+    .save-badge.show { display: inline-block; }
+    .membership-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .mem-card { background: var(--ink); border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 2.5rem; position: relative; transition: all 0.35s; }
+    .mem-card.featured { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+    .mem-card.featured::before { content: 'MOST POPULAR'; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--black); font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.25rem 1rem; border-radius: 0 0 4px 4px; }
+    .mem-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+    .mem-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+    .mem-price { font-family: 'Barlow Condensed', sans-serif; font-size: 3.5rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .mem-price sup { font-size: 1.4rem; color: var(--gold); vertical-align: super; }
+    .mem-price span { font-size: 0.85rem; color: var(--mist); font-weight: 300; }
+    .mem-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.06); margin: 1.5rem 0; }
+    .mem-feature { display: flex; align-items: center; gap: 0.7rem; font-size: 0.87rem; color: var(--mist); margin-bottom: 0.7rem; }
+    .mem-feature::before { content: '✓'; color: var(--gold); font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+    .mem-cta { display: block; width: 100%; margin-top: 2rem; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.85rem; border-radius: 2px; text-decoration: none; transition: all 0.3s; }
+    .mem-cta.outline { color: var(--white); border: 1px solid rgba(255,255,255,0.2); }
+    .mem-cta.outline:hover { border-color: var(--white); background: rgba(255,255,255,0.06); }
+    .mem-cta.gold { background: var(--gold); color: var(--black); }
+    .mem-cta.gold:hover { background: var(--white); }
 
-    .svc {
-      background:var(--white); padding:3rem 2.5rem;
-      position:relative; overflow:hidden;
-      transition:all 0.4s;
-    }
-    .svc::after {
-      content:''; position:absolute; inset:0;
-      background:var(--navy); transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.76,0,0.24,1);
-    }
-    .svc:hover::after { transform:translateY(0); }
-    .svc > * { position:relative; z-index:1; }
-    .svc-n {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:0.75rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase;
-      color:rgba(0,0,0,0.25); margin-bottom:2rem; transition:color 0.3s;
-    }
-    .svc:hover .svc-n { color:rgba(255,255,255,0.25); }
-    .svc-ico {
-      font-size:2rem; margin-bottom:1.2rem; display:block;
-      transition:transform 0.3s;
-    }
-    .svc:hover .svc-ico { transform:scale(1.15); }
-    .svc h3 {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:1.5rem; font-weight:700; text-transform:uppercase;
-      letter-spacing:0.05em; color:var(--black); margin-bottom:0.8rem;
-      transition:color 0.3s;
-    }
-    .svc:hover h3 { color:var(--white); }
-    .svc p { font-size:0.88rem; color:#5a7090; line-height:1.7; transition:color 0.3s; }
-    .svc:hover p { color:rgba(255,255,255,0.6); }
-    .svc-arrow {
-      display:inline-flex; align-items:center; gap:0.5rem; margin-top:1.8rem;
-      font-family:'Barlow Condensed',sans-serif; font-size:0.75rem; font-weight:700;
-      letter-spacing:0.2em; text-transform:uppercase;
-      color:var(--blue); transition:all 0.3s;
-    }
-    .svc:hover .svc-arrow { color:var(--gold); letter-spacing:0.3em; }
+    /* ── HOURS ── */
+    .hours-section { background: var(--black); padding: 6rem 0; }
+    .hours-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: center; }
+    .hours-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(255,255,255,0.06); }
+    .h-cell { background: var(--ink); padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden; transition: background 0.3s; }
+    .h-cell:hover { background: rgba(10,61,171,0.3); }
+    .h-day { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+    .h-time { font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--white); letter-spacing: 0.04em; }
+    .h-note { font-size: 0.75rem; color: var(--mist); margin-top: 0.3rem; }
+    .h-bar { position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--gold); transition: width 0.5s; }
+    .h-cell:hover .h-bar { width: 100%; }
 
-    /* ─── HOURS ─── */
-    .hours-section { background:var(--black); padding:6rem 0; }
-    .hours-inner { display:grid; grid-template-columns:1fr 1fr; gap:8rem; align-items:center; }
-    .hours-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.06); }
-    .h-cell {
-      background:var(--ink); padding:2.5rem 2rem; text-align:center;
-      position:relative; overflow:hidden; transition:background 0.3s;
-    }
-    .h-cell:hover { background:rgba(10,61,171,0.3); }
-    .h-day { font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:0.8rem; }
-    .h-time { font-family:'Barlow Condensed',sans-serif; font-size:1.4rem; font-weight:700; color:var(--white); letter-spacing:0.04em; }
-    .h-note { font-size:0.75rem; color:var(--mist); margin-top:0.3rem; }
-    .h-bar { position:absolute; bottom:0; left:0; width:0; height:2px; background:var(--gold); transition:width 0.5s; }
-    .h-cell:hover .h-bar { width:100%; }
+    /* ── REVIEWS ── */
+    #reviews { padding: 9rem 0; background: var(--ink); }
+    .reviews-layout { display: grid; grid-template-columns: 300px 1fr; gap: 6rem; align-items: start; }
+    .rating-block { position: sticky; top: 8rem; background: var(--black); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 3rem 2.5rem; }
+    .rb-num { font-family: 'Barlow Condensed', sans-serif; font-size: 6rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .rb-stars { color: #fbbf24; font-size: 1.4rem; margin: 0.4rem 0; }
+    .rb-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mist); }
+    .rb-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.06); margin: 1.8rem 0; }
+    .rb-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); padding: 0.4rem 1rem; border-radius: 2px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+    .reviews-stack { display: flex; flex-direction: column; gap: 1.5rem; }
+    .rv { background: var(--black); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 2.5rem; transition: all 0.35s; }
+    .rv:hover { border-color: rgba(201,168,76,0.3); transform: translateX(6px); }
+    .rv-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .rv-stars { color: #fbbf24; font-size: 1rem; }
+    .rv-badge { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; background: rgba(255,255,255,0.05); color: var(--mist); padding: 0.3rem 0.8rem; border-radius: 2px; }
+    .rv-text { font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.8; }
+    .rv-foot { margin-top: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+    .rv-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+    .rv-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+    .rv-source { font-size: 0.72rem; color: var(--mist); }
 
-    /* ─── REVIEWS ─── */
-    #reviews { padding:9rem 0; background:var(--ink); }
-    .reviews-layout { display:grid; grid-template-columns:300px 1fr; gap:6rem; align-items:start; }
-    .rating-block {
-      position:sticky; top:8rem;
-      background:var(--black); border:1px solid rgba(255,255,255,0.06);
-      border-radius:4px; padding:3rem 2.5rem;
-    }
-    .rb-num { font-family:'Barlow Condensed',sans-serif; font-size:6rem; font-weight:900; color:var(--white); line-height:1; }
-    .rb-stars { color:#fbbf24; font-size:1.4rem; margin:0.4rem 0; }
-    .rb-sub { font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--mist); }
-    .rb-divider { width:100%; height:1px; background:rgba(255,255,255,0.06); margin:1.8rem 0; }
-    .rb-tag { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.3); color:var(--gold); padding:0.4rem 1rem; border-radius:2px; font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+    /* ── CONTACT ── */
+    #contact { padding: 9rem 0; background: var(--black); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: start; }
+    .info-stack { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+    .info-row { display: flex; gap: 1.5rem; align-items: flex-start; padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); transition: padding 0.3s; }
+    .info-row:hover { padding-left: 0.5rem; }
+    .info-row:last-child { border-bottom: none; }
+    .info-icon-wrap { width: 40px; height: 40px; flex-shrink: 0; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .info-lbl { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
+    .info-val { font-size: 0.92rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+    .form-wrap { background: var(--ink); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 3.5rem; }
+    .form-wrap h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 2.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; color: var(--white); margin-bottom: 0.3rem; }
+    .form-wrap .f-sub { font-size: 0.85rem; color: var(--mist); margin-bottom: 0.8rem; }
+    .form-note-box { background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2); border-radius: 3px; padding: 0.7rem 1rem; font-size: 0.78rem; color: rgba(201,168,76,0.8); margin-bottom: 2rem; line-height: 1.5; }
+    .fg { margin-bottom: 1.1rem; }
+    .fg label { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mist); margin-bottom: 0.5rem; }
+    .fg input, .fg select, .fg textarea { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; padding: 0.9rem 1.1rem; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 0.92rem; font-weight: 300; outline: none; transition: all 0.25s; }
+    .fg input::placeholder, .fg textarea::placeholder { color: rgba(255,255,255,0.2); }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+    .fg select option { background: var(--ink); }
+    .fg textarea { height: 110px; resize: none; }
+    .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .submit { width: 100%; margin-top: 0.5rem; border: none; border-radius: 2px; background: var(--white); color: var(--black); font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; padding: 1.1rem; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+    .submit::after { content: ''; position: absolute; inset: 0; background: var(--gold); transform: translateX(-101%); transition: transform 0.35s; }
+    .submit span { position: relative; z-index: 1; }
+    .submit:hover::after { transform: translateX(0); }
+    .success-box { display: none; margin-top: 1rem; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); border-radius: 3px; padding: 1.2rem; text-align: center; }
+    .success-box p { color: #4ade80; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .success-box small { font-size: 0.78rem; color: var(--mist); }
 
-    .reviews-stack { display:flex; flex-direction:column; gap:1.5rem; }
-    .rv {
-      background:var(--black); border:1px solid rgba(255,255,255,0.06);
-      border-radius:4px; padding:2.5rem;
-      transition:all 0.35s;
-    }
-    .rv:hover { border-color:rgba(201,168,76,0.3); transform:translateX(6px); }
-    .rv-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
-    .rv-stars { color:#fbbf24; font-size:1rem; }
-    .rv-badge {
-      font-family:'Barlow Condensed',sans-serif; font-size:0.65rem; font-weight:700;
-      letter-spacing:0.18em; text-transform:uppercase;
-      background:rgba(255,255,255,0.05); color:var(--mist);
-      padding:0.3rem 0.8rem; border-radius:2px;
-    }
-    .rv-text { font-size:0.95rem; color:rgba(255,255,255,0.75); line-height:1.8; }
-    .rv-foot { margin-top:1.2rem; display:flex; align-items:center; gap:0.6rem; }
-    .rv-dot { width:5px; height:5px; border-radius:50%; background:var(--gold); }
-    .rv-name { font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); }
-    .rv-source { font-size:0.72rem; color:var(--mist); }
+    /* ── FOOTER ── */
+    footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.05); padding: 2.5rem 5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .foot-logo { font-family: 'Barlow Condensed', sans-serif; font-size: 1.6rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); }
+    .foot-logo em { font-style: normal; color: var(--gold); }
+    footer p { font-size: 0.78rem; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; }
+    .foot-link { color: var(--gold); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 1px solid rgba(201,168,76,0.3); padding-bottom: 1px; transition: all 0.25s; }
+    .foot-link:hover { color: var(--white); border-color: var(--white); }
 
-    /* ─── CONTACT ─── */
-    #contact { padding:9rem 0; background:var(--black); }
-    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:8rem; align-items:start; }
-
-    .info-stack { margin-top:3rem; display:flex; flex-direction:column; gap:0; }
-    .info-row {
-      display:flex; gap:1.5rem; align-items:flex-start;
-      padding:1.5rem 0; border-bottom:1px solid rgba(255,255,255,0.06);
-      transition:padding 0.3s;
-    }
-    .info-row:hover { padding-left:0.5rem; }
-    .info-row:last-child { border-bottom:none; }
-    .info-icon-wrap {
-      width:40px; height:40px; flex-shrink:0;
-      background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2);
-      border-radius:2px; display:flex; align-items:center; justify-content:center;
-      font-size:1rem; color:var(--gold);
-    }
-    .info-lbl { font-family:'Barlow Condensed',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:0.2rem; }
-    .info-val { font-size:0.92rem; color:rgba(255,255,255,0.7); line-height:1.5; }
-
-    /* form */
-    .form-wrap {
-      background:var(--ink); border:1px solid rgba(255,255,255,0.06);
-      border-radius:4px; padding:3.5rem;
-    }
-    .form-wrap h3 { font-family:'Barlow Condensed',sans-serif; font-size:2.2rem; font-weight:900; text-transform:uppercase; letter-spacing:0.04em; color:var(--white); margin-bottom:0.3rem; }
-    .form-wrap .f-sub { font-size:0.85rem; color:var(--mist); margin-bottom:0.8rem; }
-    .form-note-box { background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:3px; padding:0.7rem 1rem; font-size:0.78rem; color:rgba(201,168,76,0.8); margin-bottom:2rem; line-height:1.5; }
-    .fg { margin-bottom:1.1rem; }
-    .fg label { display:block; font-family:'Barlow Condensed',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--mist); margin-bottom:0.5rem; }
-    .fg input, .fg select, .fg textarea {
-      width:100%; background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.1); border-radius:2px;
-      padding:0.9rem 1.1rem; color:var(--white);
-      font-family:'Barlow',sans-serif; font-size:0.92rem; font-weight:300;
-      outline:none; transition:all 0.25s;
-    }
-    .fg input::placeholder, .fg textarea::placeholder { color:rgba(255,255,255,0.2); }
-    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--gold); background:rgba(201,168,76,0.05); }
-    .fg select option { background:var(--ink); }
-    .fg textarea { height:110px; resize:none; }
-    .form-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-    .submit {
-      width:100%; margin-top:0.5rem; border:none; border-radius:2px;
-      background:var(--white); color:var(--black);
-      font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:900;
-      letter-spacing:0.2em; text-transform:uppercase;
-      padding:1.1rem; cursor:pointer; transition:all 0.3s;
-      position:relative; overflow:hidden;
-    }
-    .submit::after { content:''; position:absolute; inset:0; background:var(--gold); transform:translateX(-101%); transition:transform 0.35s; }
-    .submit span { position:relative; z-index:1; }
-    .submit:hover::after { transform:translateX(0); }
-    .success-box { display:none; margin-top:1rem; background:rgba(74,222,128,0.08); border:1px solid rgba(74,222,128,0.25); border-radius:3px; padding:1.2rem; text-align:center; }
-    .success-box p { color:#4ade80; font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
-    .success-box small { font-size:0.78rem; color:var(--mist); }
-
-    /* ─── FOOTER ─── */
-    footer {
-      background:var(--ink); border-top:1px solid rgba(255,255,255,0.05);
-      padding:2.5rem 5rem;
-      display:flex; justify-content:space-between; align-items:center;
-      flex-wrap:wrap; gap:1rem;
-    }
-    .foot-logo { font-family:'Barlow Condensed',sans-serif; font-size:1.6rem; font-weight:900; letter-spacing:0.12em; text-transform:uppercase; color:var(--white); }
-    .foot-logo em { font-style:normal; color:var(--gold); }
-    footer p { font-size:0.78rem; color:rgba(255,255,255,0.3); letter-spacing:0.08em; }
-
-    /* ─── REVEAL ─── */
+    /* ── REVEAL ── */
     .r  { opacity:0; transform:translateY(32px); transition:opacity 0.85s ease,transform 0.85s ease; }
     .rl { opacity:0; transform:translateX(-32px); transition:opacity 0.85s ease,transform 0.85s ease; }
     .rr { opacity:0; transform:translateX(32px); transition:opacity 0.85s ease,transform 0.85s ease; }
     .on { opacity:1 !important; transform:translate(0) !important; }
 
-    /* ─── MOBILE ─── */
+    /* ── MOBILE ── */
     @media(max-width:960px){
-      nav,nav.stuck{padding:1.2rem 1.5rem;}
-      .nav-center,.nav-right .nav-status{display:none;}
-      .hero-content{grid-template-columns:1fr;padding:0 1.5rem 4rem;}
+      .hero-content{grid-template-columns:1fr;padding:0 1.5rem 6rem;}
       .hero-right{display:none;}
       .hero-watermark{font-size:30vw;}
       .numbers-bar{grid-template-columns:1fr 1fr;}
@@ -522,7 +311,8 @@
       .about-visual{height:auto;}
       .strip-content{padding:0 1.5rem;}
       .services-head{flex-direction:column;align-items:flex-start;gap:1.5rem;}
-      .services-grid{grid-template-columns:1fr;}
+      .schedule-tabs{flex-wrap:wrap;}
+      .membership-grid{grid-template-columns:1fr;}
       .hours-inner{grid-template-columns:1fr;gap:3rem;}
       .hours-grid{grid-template-columns:1fr;}
       .reviews-layout{grid-template-columns:1fr;}
@@ -535,29 +325,46 @@
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="#hero" class="logo">SWIM<em>CLUB</em></a>
-  <ul class="nav-center">
-    <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#reviews">Reviews</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-right">
-    <div class="nav-status">
-      <div class="status-dot" id="navDot"></div>
-      <span class="status-text" id="navStatus">Loading...</span>
+<!-- ── BOOTSTRAP NAVBAR ── -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="#hero">SWIM<em>CLUB</em></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#schedule">Schedule</a></li>
+        <li class="nav-item"><a class="nav-link" href="#membership">Membership</a></li>
+        <li class="nav-item"><a class="nav-link" href="#reviews">Reviews</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        <div class="nav-status">
+          <div class="status-dot" id="navDot"></div>
+          <span class="status-text" id="navStatus">Loading...</span>
+        </div>
+        <a href="booking.html" class="nav-link btn-nav-cta">Book a Session</a>
+      </div>
     </div>
-    <a href="#contact" class="nav-btn">Join Now</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-vignette"></div>
   <div class="hero-watermark">SWIM</div>
+  <!-- CSS Water Wave -->
+  <div class="wave-wrap">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:80px;">
+      <path class="wave1" d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1440,20 1440,40 L1440,80 L0,80 Z" fill="rgba(6,8,16,0.6)"/>
+      <path class="wave2" d="M0,50 C200,10 400,70 600,40 C800,10 1000,70 1200,40 C1300,25 1380,55 1440,50 L1440,80 L0,80 Z" fill="rgba(6,8,16,0.4)"/>
+      <path d="M0,60 C360,30 720,80 1080,50 C1260,35 1380,65 1440,60 L1440,80 L0,80 Z" fill="rgba(6,8,16,1)"/>
+    </svg>
+  </div>
   <div class="hero-content">
     <div class="hero-left">
       <div class="hero-tag">Ranchi&rsquo;s Premier Indoor Pool</div>
@@ -569,7 +376,7 @@
       <p class="hero-desc">Year-round, climate-controlled swimming in Ranchi. Whether you chase records or just your best self &mdash; this pool is yours.</p>
       <div class="hero-actions">
         <a href="#services" class="cta-main"><span>Explore Services</span></a>
-        <a href="#contact" class="cta-secondary">Get in Touch</a>
+        <a href="booking.html" class="cta-secondary">Book a Session</a>
       </div>
     </div>
     <div class="hero-right">
@@ -595,7 +402,7 @@
   </div>
 </section>
 
-<!-- MARQUEE -->
+<!-- ── MARQUEE ── -->
 <div class="marquee">
   <div class="marquee-inner">
     <span class="marquee-item">Swim Club Ranchi <span class="marquee-sep">/</span></span>
@@ -615,7 +422,7 @@
   </div>
 </div>
 
-<!-- NUMBERS -->
+<!-- ── NUMBERS ── -->
 <div class="numbers-bar">
   <div class="nb-cell r"><div class="nb-top">4.0<sup>&#9733;</sup></div><div class="nb-label">Google Rating</div><div class="nb-accent"></div></div>
   <div class="nb-cell r"><div class="nb-top">91</div><div class="nb-label">Member Reviews</div><div class="nb-accent"></div></div>
@@ -623,30 +430,21 @@
   <div class="nb-cell r"><div class="nb-top">10<sup>PM</sup></div><div class="nb-label">Closes Daily</div><div class="nb-accent"></div></div>
 </div>
 
-<!-- ABOUT -->
+<!-- ── ABOUT ── -->
 <section id="about">
   <div class="wrap">
     <div class="about-grid">
       <div class="about-visual rl">
         <div class="av-lane-art">
           <div class="av-lane-inner">
-            <div class="av-open-badge">
-              <div class="av-open-dot"></div>
-              <span id="aboutStatus">Open Now</span>
-            </div>
+            <div class="av-open-badge"><div class="av-open-dot"></div><span id="aboutStatus">Open Now</span></div>
             <div class="av-big-stat">4.0<span>&#9733;</span></div>
             <div class="av-stat-label">Google Rating &mdash; 91 Verified Reviews</div>
           </div>
         </div>
         <div class="av-cards">
-          <div class="av-card">
-            <div class="av-card-n">6<span>AM</span></div>
-            <div class="av-card-l">Opens Every Day</div>
-          </div>
-          <div class="av-card">
-            <div class="av-card-n">10<span>PM</span></div>
-            <div class="av-card-l">Closes Mon &ndash; Sat</div>
-          </div>
+          <div class="av-card"><div class="av-card-n">6<span>AM</span></div><div class="av-card-l">Opens Every Day</div></div>
+          <div class="av-card"><div class="av-card-n">10<span>PM</span></div><div class="av-card-l">Closes Mon &ndash; Sat</div></div>
         </div>
       </div>
       <div class="rr">
@@ -654,29 +452,17 @@
         <h2 class="shead">More Than<br/>Just a <em>Pool.</em></h2>
         <p class="body-p">Swim Club is Ranchi's trusted indoor swimming destination &mdash; professionally managed, spotlessly clean, and staffed by people who genuinely care about your progress in and out of the water.</p>
         <div class="features">
-          <div class="feat">
-            <div class="feat-num">01</div>
-            <div class="feat-body"><strong>Proper Water Management</strong><span>Chlorination and filtration inspected daily. Clean, safe water, every session.</span></div>
-          </div>
-          <div class="feat">
-            <div class="feat-num">02</div>
-            <div class="feat-body"><strong>Professional Staff</strong><span>Friendly, qualified coaches and support team always on deck for you.</span></div>
-          </div>
-          <div class="feat">
-            <div class="feat-num">03</div>
-            <div class="feat-body"><strong>Spotlessly Clean</strong><span>Poolside, changing rooms &amp; all facilities maintained to the highest standard.</span></div>
-          </div>
-          <div class="feat">
-            <div class="feat-num">04</div>
-            <div class="feat-body"><strong>Year-Round Indoor Access</strong><span>Fully climate-controlled. Rain, heat or cold &mdash; nothing stops your training.</span></div>
-          </div>
+          <div class="feat"><div class="feat-num">01</div><div class="feat-body"><strong>Proper Water Management</strong><span>Chlorination and filtration inspected daily. Clean, safe water, every session.</span></div></div>
+          <div class="feat"><div class="feat-num">02</div><div class="feat-body"><strong>Professional Staff</strong><span>Friendly, qualified coaches and support team always on deck for you.</span></div></div>
+          <div class="feat"><div class="feat-num">03</div><div class="feat-body"><strong>Spotlessly Clean</strong><span>Poolside, changing rooms &amp; all facilities maintained to the highest standard.</span></div></div>
+          <div class="feat"><div class="feat-num">04</div><div class="feat-body"><strong>Year-Round Indoor Access</strong><span>Fully climate-controlled. Rain, heat or cold &mdash; nothing stops your training.</span></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FULL IMAGE STRIP -->
+<!-- ── QUOTE STRIP ── -->
 <div class="img-strip">
   <div class="img-strip-bg" id="stripBg"></div>
   <div class="img-strip-overlay"></div>
@@ -687,36 +473,138 @@
   </div>
 </div>
 
-<!-- SERVICES -->
+<!-- ── SERVICES (Bootstrap grid) ── -->
 <section id="services">
   <div class="wrap">
     <div class="services-head r">
       <div>
-        <div class="section-eyebrow" style="color:var(--blue)">What We Offer</div>
+        <div class="section-eyebrow" style="color:var(--blue);">What We Offer</div>
         <h2 class="shead dark">Our <em>Services</em></h2>
       </div>
       <a href="#contact" class="cta-main" style="background:var(--black);color:var(--white);"><span>Enquire Now</span></a>
     </div>
-    <div class="services-grid">
-      <div class="svc r"><div class="svc-n">01</div><span class="svc-ico">&#127946;</span><h3>Recreational Swimming</h3><p>Open lane swimming for all ages and levels. Enjoy the pool at your own pace, completely stress-free.</p><div class="svc-arrow">All Levels &rsaquo;</div></div>
-      <div class="svc r"><div class="svc-n">02</div><span class="svc-ico">&#127891;</span><h3>Swimming Lessons</h3><p>Certified coaches for beginners to advanced swimmers. Build technique, confidence and real speed.</p><div class="svc-arrow">Learn More &rsaquo;</div></div>
-      <div class="svc r"><div class="svc-n">03</div><span class="svc-ico">&#9889;</span><h3>Fitness &amp; Lap Training</h3><p>Dedicated lanes for serious training. Build cardiovascular endurance and full-body strength.</p><div class="svc-arrow">Performance &rsaquo;</div></div>
-      <div class="svc r"><div class="svc-n">04</div><span class="svc-ico">&#128102;</span><h3>Kids&rsquo; Program</h3><p>Safe, fun sessions for children 4+. We build water confidence and foundational skills they keep for life.</p><div class="svc-arrow">Ages 4+ &rsaquo;</div></div>
-      <div class="svc r"><div class="svc-n">05</div><span class="svc-ico">&#128170;</span><h3>Aqua Fitness</h3><p>Low-impact water aerobics. Ideal for rehabilitation, seniors, or anyone wanting joint-friendly cardio.</p><div class="svc-arrow">Group Class &rsaquo;</div></div>
-      <div class="svc r"><div class="svc-n">06</div><span class="svc-ico">&#127915;</span><h3>Memberships</h3><p>Monthly and quarterly plans. Unlimited access, priority lane booking and coaching discounts included.</p><div class="svc-arrow">View Plans &rsaquo;</div></div>
+    <!-- Bootstrap row/col grid -->
+    <div class="row g-4">
+      <div class="col-md-4 r">
+        <div class="svc-card"><div class="svc-n">01</div><span class="svc-ico">&#127946;</span><h3>Recreational Swimming</h3><p>Open lane swimming for all ages. Enjoy the pool at your own pace in a clean, relaxed environment.</p><span class="badge-pill">All Levels</span></div>
+      </div>
+      <div class="col-md-4 r">
+        <div class="svc-card"><div class="svc-n">02</div><span class="svc-ico">&#127891;</span><h3>Swimming Lessons</h3><p>Certified coaches for beginners to advanced. Build real technique, confidence, and water speed.</p><span class="badge-pill">Beginner &ndash; Advanced</span></div>
+      </div>
+      <div class="col-md-4 r">
+        <div class="svc-card"><div class="svc-n">03</div><span class="svc-ico">&#9889;</span><h3>Fitness &amp; Lap Training</h3><p>Dedicated lanes for serious training. Build cardiovascular endurance and full-body strength.</p><span class="badge-pill">Performance</span></div>
+      </div>
+      <div class="col-md-4 r">
+        <div class="svc-card"><div class="svc-n">04</div><span class="svc-ico">&#128102;</span><h3>Kids&rsquo; Program</h3><p>Safe, fun sessions for children 4+. We build water confidence and skills they keep for life.</p><span class="badge-pill">Ages 4+</span></div>
+      </div>
+      <div class="col-md-4 r">
+        <div class="svc-card"><div class="svc-n">05</div><span class="svc-ico">&#128170;</span><h3>Aqua Fitness</h3><p>Low-impact water aerobics. Ideal for rehabilitation, seniors, or joint-friendly cardio.</p><span class="badge-pill">Group Class</span></div>
+      </div>
+      <div class="col-md-4 r">
+        <div class="svc-card"><div class="svc-n">06</div><span class="svc-ico">&#127915;</span><h3>Memberships</h3><p>Monthly and quarterly plans with unlimited access, priority lane booking, and coaching discounts.</p><span class="badge-pill">Flexible Plans</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- HOURS -->
+<!-- ── SCHEDULE (JS DOM) ── -->
+<section id="schedule">
+  <div class="wrap">
+    <div class="r" style="margin-bottom:1rem;">
+      <div class="section-eyebrow">Pool Schedule</div>
+      <h2 class="shead">Daily <em>Sessions</em></h2>
+    </div>
+    <div class="schedule-tabs r">
+      <button class="sched-tab active" onclick="showSlot('morning', this)">&#9728; Morning</button>
+      <button class="sched-tab" onclick="showSlot('afternoon', this)">&#9729; Afternoon</button>
+      <button class="sched-tab" onclick="showSlot('evening', this)">&#9790; Evening</button>
+    </div>
+
+    <!-- Morning -->
+    <div class="schedule-grid active" id="slot-morning">
+      <div class="sched-card r"><div class="sched-time">6:00 &ndash; 7:30 AM</div><div class="sched-name">Fitness &amp; Lap Training</div><div class="sched-detail">Early morning performance lanes. Dedicated lap swimming for fitness athletes and serious swimmers.</div><span class="sched-badge">Performance</span></div>
+      <div class="sched-card r"><div class="sched-time">7:30 &ndash; 9:00 AM</div><div class="sched-name">Recreational Swimming</div><div class="sched-detail">Open pool for all levels. Relaxed morning swim at your own pace — no booking required.</div><span class="sched-badge">All Levels</span></div>
+      <div class="sched-card r"><div class="sched-time">9:00 &ndash; 10:30 AM</div><div class="sched-name">Kids&rsquo; Swim Program</div><div class="sched-detail">Structured morning lessons for children aged 4 and above with certified coaches.</div><span class="sched-badge">Ages 4+</span></div>
+      <div class="sched-card r"><div class="sched-time">10:30 AM &ndash; 12:00 PM</div><div class="sched-name">Swimming Lessons</div><div class="sched-detail">One-on-one and group coaching sessions for adult beginners and intermediate swimmers.</div><span class="sched-badge">Coaching</span></div>
+    </div>
+
+    <!-- Afternoon -->
+    <div class="schedule-grid" id="slot-afternoon">
+      <div class="sched-card r"><div class="sched-time">12:00 &ndash; 1:30 PM</div><div class="sched-name">Recreational Swimming</div><div class="sched-detail">Midday open swim. Perfect for a relaxing lunch-break session in the pool.</div><span class="sched-badge">All Levels</span></div>
+      <div class="sched-card r"><div class="sched-time">1:30 &ndash; 3:00 PM</div><div class="sched-name">Swimming Lessons</div><div class="sched-detail">Afternoon coaching slots for beginners and advanced swimmers. Flexible group sizes.</div><span class="sched-badge">Coaching</span></div>
+      <div class="sched-card r"><div class="sched-time">3:00 &ndash; 4:30 PM</div><div class="sched-name">Kids&rsquo; Swim Program</div><div class="sched-detail">After-school swim sessions for children. Fun, safe, and skill-building in every class.</div><span class="sched-badge">Ages 4+</span></div>
+      <div class="sched-card r"><div class="sched-time">4:00 &ndash; 5:00 PM</div><div class="sched-name">Fitness &amp; Lap Training</div><div class="sched-detail">Late afternoon lap lanes for members looking to train before the evening rush.</div><span class="sched-badge">Performance</span></div>
+    </div>
+
+    <!-- Evening -->
+    <div class="schedule-grid" id="slot-evening">
+      <div class="sched-card r"><div class="sched-time">5:00 &ndash; 6:30 PM</div><div class="sched-name">Fitness &amp; Lap Training</div><div class="sched-detail">Peak performance hours. High-intensity lap training for competitive and fitness swimmers.</div><span class="sched-badge">Performance</span></div>
+      <div class="sched-card r"><div class="sched-time">6:30 &ndash; 8:00 PM</div><div class="sched-name">Swimming Lessons</div><div class="sched-detail">Evening coaching for working adults. Learn at your own pace with expert guidance.</div><span class="sched-badge">Coaching</span></div>
+      <div class="sched-card r"><div class="sched-time">8:00 &ndash; 9:30 PM</div><div class="sched-name">Recreational Swimming</div><div class="sched-detail">Wind down with a relaxed evening swim. Open pool, all levels, no restrictions.</div><span class="sched-badge">All Levels</span></div>
+      <div class="sched-card r"><div class="sched-time">9:30 &ndash; 10:00 PM</div><div class="sched-name">Fitness &amp; Lap Training</div><div class="sched-detail">Final lap session of the day. Last chance for performance swimmers before closing.</div><span class="sched-badge">Performance</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MEMBERSHIP TOGGLE (DOM) ── -->
+<section id="membership">
+  <div class="wrap">
+    <div class="r">
+      <div class="section-eyebrow">Membership Plans</div>
+      <h2 class="shead">Choose Your <em>Plan</em></h2>
+    </div>
+    <div class="toggle-wrap r">
+      <span class="toggle-label active" id="label-monthly">Monthly</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="billingToggle" onchange="togglePricing()"/>
+        <div class="toggle-slider"></div>
+      </label>
+      <span class="toggle-label" id="label-quarterly">Quarterly</span>
+      <span class="save-badge" id="saveBadge">Save 20%</span>
+    </div>
+    <div class="membership-grid">
+      <div class="mem-card r">
+        <div class="mem-name">Starter</div>
+        <div class="mem-price"><sup>&#8377;</sup><span id="price-starter">1,499</span> <span id="per-starter">/ month</span></div>
+        <div class="mem-divider"></div>
+        <div class="mem-feature">Unlimited recreational swimming</div>
+        <div class="mem-feature">Access to all pool hours</div>
+        <div class="mem-feature">Locker room access</div>
+        <a href="booking.html" class="mem-cta outline">Get Started</a>
+      </div>
+      <div class="mem-card featured r">
+        <div class="mem-name">Performance</div>
+        <div class="mem-price"><sup>&#8377;</sup><span id="price-performance">2,499</span> <span id="per-performance">/ month</span></div>
+        <div class="mem-divider"></div>
+        <div class="mem-feature">Everything in Starter</div>
+        <div class="mem-feature">Priority lap lane booking</div>
+        <div class="mem-feature">2 coaching sessions/month</div>
+        <div class="mem-feature">Fitness &amp; lap training access</div>
+        <a href="booking.html" class="mem-cta gold">Get Started</a>
+      </div>
+      <div class="mem-card r">
+        <div class="mem-name">Family</div>
+        <div class="mem-price"><sup>&#8377;</sup><span id="price-family">3,999</span> <span id="per-family">/ month</span></div>
+        <div class="mem-divider"></div>
+        <div class="mem-feature">Up to 4 family members</div>
+        <div class="mem-feature">Kids&rsquo; program included</div>
+        <div class="mem-feature">Aqua fitness classes</div>
+        <div class="mem-feature">4 coaching sessions/month</div>
+        <a href="booking.html" class="mem-cta outline">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOURS ── -->
 <div class="hours-section">
   <div class="wrap">
     <div class="hours-inner">
       <div class="rl">
         <div class="section-eyebrow">Pool Hours</div>
         <h2 class="shead">Open<br/><em>Every Day.</em></h2>
-        <p class="body-p">From early morning training sessions to late evening recreational swims &mdash; we&rsquo;re here for you all day, seven days a week.</p>
-        <p class="body-p">Call or WhatsApp us at <strong style="color:var(--white)">079033 56272</strong> for any questions.</p>
+        <p class="body-p">From early morning training to late evening sessions &mdash; we&rsquo;re here for you all day, seven days a week.</p>
+        <p class="body-p">Call or WhatsApp: <strong style="color:var(--white)">079033 56272</strong></p>
       </div>
       <div class="hours-grid rr">
         <div class="h-cell"><div class="h-day">Mon &ndash; Fri</div><div class="h-time">6 AM &ndash; 10 PM</div><div class="h-note">16 hrs open</div><div class="h-bar"></div></div>
@@ -727,7 +615,7 @@
   </div>
 </div>
 
-<!-- REVIEWS -->
+<!-- ── REVIEWS ── -->
 <section id="reviews">
   <div class="wrap">
     <div class="section-eyebrow r">Member Reviews</div>
@@ -741,43 +629,22 @@
         <div class="rb-tag">&#10003; Google Verified &bull; 91 Reviews</div>
       </div>
       <div class="reviews-stack">
-        <div class="rv r">
-          <div class="rv-head">
-            <div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <div class="rv-badge">Google Review</div>
-          </div>
-          <p class="rv-text">"There is proper management of water and cleaning is taken care of properly. Really impressed with how well-maintained everything is at this facility."</p>
-          <div class="rv-foot"><div class="rv-dot"></div><div class="rv-name">Google Member</div><div class="rv-source">&bull; Verified Review</div></div>
-        </div>
-        <div class="rv r">
-          <div class="rv-head">
-            <div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <div class="rv-badge">Google Review</div>
-          </div>
-          <p class="rv-text">"Very neat and clean atmosphere and friendly staff. You feel comfortable and genuinely welcome from the very moment you walk in through the door."</p>
-          <div class="rv-foot"><div class="rv-dot"></div><div class="rv-name">Google Member</div><div class="rv-source">&bull; Verified Review</div></div>
-        </div>
-        <div class="rv r">
-          <div class="rv-head">
-            <div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <div class="rv-badge">Google Review</div>
-          </div>
-          <p class="rv-text">"Nice place and experience overall. A great facility for both recreational swimmers and those who are serious about their training. Will definitely keep coming back."</p>
-          <div class="rv-foot"><div class="rv-dot"></div><div class="rv-name">Google Member</div><div class="rv-source">&bull; Verified Review</div></div>
-        </div>
+        <div class="rv r"><div class="rv-head"><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="rv-badge">Google Review</div></div><p class="rv-text">"There is proper management of water and cleaning is taken care of properly. Really impressed with how well-maintained everything is at this facility."</p><div class="rv-foot"><div class="rv-dot"></div><div class="rv-name">Google Member</div><div class="rv-source">&bull; Verified Review</div></div></div>
+        <div class="rv r"><div class="rv-head"><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="rv-badge">Google Review</div></div><p class="rv-text">"Very neat and clean atmosphere and friendly staff. You feel comfortable and genuinely welcome from the very moment you walk in through the door."</p><div class="rv-foot"><div class="rv-dot"></div><div class="rv-name">Google Member</div><div class="rv-source">&bull; Verified Review</div></div></div>
+        <div class="rv r"><div class="rv-head"><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="rv-badge">Google Review</div></div><p class="rv-text">"Nice place and experience overall. A great facility for both recreational swimmers and those serious about training. Will definitely keep coming back."</p><div class="rv-foot"><div class="rv-dot"></div><div class="rv-name">Google Member</div><div class="rv-source">&bull; Verified Review</div></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ── CONTACT ── -->
 <section id="contact">
   <div class="wrap">
     <div class="contact-grid">
       <div class="rl">
         <div class="section-eyebrow">Find Us</div>
         <h2 class="shead">Come<br/><em>Swim</em><br/>With Us.</h2>
-        <p class="body-p">Questions about membership, coaching, or just want to come for a visit? Reach out and our team will get back to you promptly.</p>
+        <p class="body-p">Questions about membership, coaching, or want to visit? Reach out and our team will get back to you promptly.</p>
         <div class="info-stack">
           <div class="info-row"><div class="info-icon-wrap">&#128205;</div><div><div class="info-lbl">Location</div><div class="info-val">Ranchi, Jharkhand, India</div></div></div>
           <div class="info-row"><div class="info-icon-wrap">&#128222;</div><div><div class="info-lbl">Phone / WhatsApp</div><div class="info-val">079033 56272</div></div></div>
@@ -788,48 +655,36 @@
       <div class="form-wrap rr">
         <h3>Send an Enquiry</h3>
         <p class="f-sub">We&rsquo;ll follow up via phone or WhatsApp.</p>
-        <div class="form-note-box">&#9432; For an immediate response, WhatsApp or call <strong>079033 56272</strong> directly.</div>
+        <div class="form-note-box">&#9432; For immediate response, WhatsApp or call <strong>079033 56272</strong></div>
         <div class="form-row2">
           <div class="fg"><label>First Name</label><input type="text" id="fn" placeholder="First name"/></div>
           <div class="fg"><label>Last Name</label><input type="text" id="ln" placeholder="Last name"/></div>
         </div>
         <div class="fg"><label>Phone / Email</label><input type="text" id="ct" placeholder="How should we reach you?"/></div>
-        <div class="fg">
-          <label>I&rsquo;m Interested In</label>
-          <select id="interest">
-            <option>Recreational Swimming</option>
-            <option>Swimming Lessons</option>
-            <option>Fitness &amp; Lap Training</option>
-            <option>Kids&rsquo; Swim Program</option>
-            <option>Aqua Fitness</option>
-            <option>Membership Plans</option>
-            <option>General Enquiry</option>
-          </select>
-        </div>
+        <div class="fg"><label>I&rsquo;m Interested In</label><select id="interest"><option>Recreational Swimming</option><option>Swimming Lessons</option><option>Fitness &amp; Lap Training</option><option>Kids&rsquo; Swim Program</option><option>Aqua Fitness</option><option>Membership Plans</option><option>General Enquiry</option></select></div>
         <div class="fg"><label>Message (optional)</label><textarea id="msg" placeholder="Tell us what you&rsquo;re looking for..."></textarea></div>
         <button class="submit" id="submitBtn"><span>Submit Enquiry &rarr;</span></button>
-        <div class="success-box" id="successBox">
-          <p>&#10003; Enquiry Received!</p>
-          <small>We&rsquo;ll contact you via phone or WhatsApp shortly. For faster reply: 079033 56272</small>
-        </div>
+        <div class="success-box" id="successBox"><p>&#10003; Enquiry Received!</p><small>We&rsquo;ll contact you via phone or WhatsApp shortly.</small></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer>
   <div class="foot-logo">SWIM<em>CLUB</em></div>
   <p>&copy; 2026 Swim Club, Ranchi &mdash; All rights reserved</p>
-  <p>Open Daily &bull; 079033 56272</p>
+  <a href="booking.html" class="foot-link">Book a Session &rarr;</a>
 </footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 /* ── DYNAMIC STATUS ── */
 function checkStatus() {
   var now = new Date();
-  var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-  var ist = new Date(utc + (5.5 * 3600000));
+  var ist = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (5.5 * 3600000));
   var day = ist.getDay();
   var t = ist.getHours() + ist.getMinutes() / 60;
   var openH = day === 0 ? 7 : 6;
@@ -841,14 +696,59 @@ function checkStatus() {
   dot.className = 'status-dot ' + (open ? 'open' : 'closed');
   txt.className = 'status-text ' + (open ? 'open' : 'closed');
   txt.textContent = open ? 'Open Now' : 'Closed';
+
+  var aboutBadge = document.getElementById('aboutStatus');
+  if (aboutBadge) aboutBadge.textContent = open ? 'Open Now' : 'Currently Closed';
 }
 checkStatus();
 setInterval(checkStatus, 60000);
 
 /* ── NAV SCROLL ── */
 window.addEventListener('scroll', function() {
-  document.getElementById('nav').classList.toggle('stuck', window.scrollY > 60);
+  document.getElementById('mainNav').classList.toggle('stuck', window.scrollY > 60);
 });
+
+/* ── SCHEDULE TAB SWITCHER (DOM Manipulation) ── */
+function showSlot(slot, btn) {
+  // hide all grids
+  document.querySelectorAll('.schedule-grid').forEach(function(g) {
+    g.classList.remove('active');
+  });
+  // deactivate all tabs
+  document.querySelectorAll('.sched-tab').forEach(function(t) {
+    t.classList.remove('active');
+  });
+  // show selected
+  document.getElementById('slot-' + slot).classList.add('active');
+  btn.classList.add('active');
+  // re-trigger reveal for new cards
+  document.querySelectorAll('#slot-' + slot + ' .r').forEach(function(el) {
+    el.classList.remove('on');
+    setTimeout(function() { el.classList.add('on'); }, 50);
+  });
+}
+
+/* ── MEMBERSHIP PRICE TOGGLE (DOM Manipulation) ── */
+var prices = {
+  monthly:   { starter: '1,499', performance: '2,499', family: '3,999' },
+  quarterly: { starter: '3,597', performance: '5,997', family: '9,597' }
+};
+function togglePricing() {
+  var isQuarterly = document.getElementById('billingToggle').checked;
+  var period = isQuarterly ? 'quarterly' : 'monthly';
+  var perText = isQuarterly ? '/ quarter' : '/ month';
+
+  document.getElementById('price-starter').textContent      = prices[period].starter;
+  document.getElementById('price-performance').textContent  = prices[period].performance;
+  document.getElementById('price-family').textContent       = prices[period].family;
+  document.getElementById('per-starter').textContent        = perText;
+  document.getElementById('per-performance').textContent    = perText;
+  document.getElementById('per-family').textContent         = perText;
+
+  document.getElementById('label-monthly').classList.toggle('active', !isQuarterly);
+  document.getElementById('label-quarterly').classList.toggle('active', isQuarterly);
+  document.getElementById('saveBadge').classList.toggle('show', isQuarterly);
+}
 
 /* ── SCROLL REVEAL ── */
 var revEls = document.querySelectorAll('.r,.rl,.rr');
@@ -871,13 +771,9 @@ document.getElementById('submitBtn').addEventListener('click', function() {
   var ct = document.getElementById('ct').value.trim();
   if (!fn || !ct) {
     this.style.background = '#ef4444';
-    var el = this.querySelector('span');
-    el.textContent = 'Please fill Name & Contact \u2192';
+    this.querySelector('span').textContent = 'Please fill Name & Contact';
     var btn = this;
-    setTimeout(function() {
-      btn.style.background = '';
-      btn.querySelector('span').textContent = 'Submit Enquiry \u2192';
-    }, 2500);
+    setTimeout(function() { btn.style.background = ''; btn.querySelector('span').textContent = 'Submit Enquiry \u2192'; }, 2500);
     return;
   }
   this.style.display = 'none';
